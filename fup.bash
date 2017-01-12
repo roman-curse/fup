@@ -10,16 +10,14 @@ echo "$y"========================"$d"
 echo "$y"= "$g"External tar updater "$y"="$d"
 echo "$y"========================"$d"
 
-
-if [ "$(id -u)" != "0" ] ; then
-    echo $r"This script must be run as root"$d 1>&2
-    exit 1
-fi
-
 if [ "$1" = "" ] || [ "$2" = "" ]
 then
   echo "$r"Param path to directory or path to tar file does not exist! "$g"${0} /path/to/dir link"$d"
   exit;
+fi
+
+if [ ! -d $1 ] ; then
+    mkdir -p $1
 fi
 
 echo $1;
@@ -28,6 +26,5 @@ rm -R $1/*
 
 curl -L -k $2 | tar -xJ -C $1
 
-chmod 0777 -R $1
 echo $g"Done."$d
 
